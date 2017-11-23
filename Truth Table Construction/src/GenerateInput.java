@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class GenerateInput implements GenerateAllInputs {
 
-    Expression expression = new Expression();
 
     @Override
     public int gitnumberofinput(final String expression) {
@@ -25,8 +24,7 @@ public class GenerateInput implements GenerateAllInputs {
     @Override
     public void generateAllValidInputs(
             final HashMap<Character, Boolean> onerowofinput,
-            final Iterator  i) {
-        // TODO Auto-generated method stub
+            final Iterator  i, final Expression expression) {
         if(!i.hasNext())
         {
             expression.results.add(.evaluate(onerowofinput));
@@ -35,8 +33,8 @@ public class GenerateInput implements GenerateAllInputs {
         }
         final Map.Entry pair = (Map.Entry)i.next();
         onerowofinput.put((Character) pair.getKey(), true);
-        generateAllValidInputs(onerowofinput, i);
+        generateAllValidInputs(onerowofinput, i,expression);
         onerowofinput.put((Character) pair.getKey(), false);
-        generateAllValidInputs(onerowofinput, i);
+        generateAllValidInputs(onerowofinput, i,expression);
     }
 }
