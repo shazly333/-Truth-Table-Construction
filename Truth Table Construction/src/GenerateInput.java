@@ -1,7 +1,12 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 public class GenerateInput implements GenerateAllInputs {
+
+    Expression expression = new Expression();
 
     @Override
     public int gitnumberofinput(final String expression) {
@@ -19,8 +24,19 @@ public class GenerateInput implements GenerateAllInputs {
 
     @Override
     public void generateAllValidInputs(
-            final HashMap<Character, Boolean> onerowofinput) {
-
+            final HashMap<Character, Boolean> onerowofinput,
+            final Iterator  i) {
+        // TODO Auto-generated method stub
+        if(!i.hasNext())
+        {
+            expression.results.add(.evaluate(onerowofinput));
+            expression.allInputs.add(onerowofinput);
+            return;
+        }
+        final Map.Entry pair = (Map.Entry)i.next();
+        onerowofinput.put((Character) pair.getKey(), true);
+        generateAllValidInputs(onerowofinput, i);
+        onerowofinput.put((Character) pair.getKey(), false);
+        generateAllValidInputs(onerowofinput, i);
     }
-
 }
