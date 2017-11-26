@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Stack;
 
 /**
- * 
+ *
  */
 
 /**
@@ -11,288 +11,292 @@ import java.util.Stack;
  */
 public class ValidateAndCalculate implements IvalidateAndCalculate {
 
-	private String expression;
-	private String exp;
-	private boolean isValid = false;
+    private String expression;
+    private String exp;
+    private boolean isValid = false;
 
-	@Override
-	public void setExpression(String expression) {
-		this.expression = expression;
-		String exp = removeSpaces(expression);
-		this.exp = exp;
-	}
+    @Override
+    public void setExpression(final String expression) {
+        this.expression = expression;
+        final String exp = removeSpaces(expression);
+        this.exp = exp;
+    }
 
-	@Override
-	public boolean isAvalidExpression() {
-				int numberOfOpenPraces = 0;
-		int numberOfClosedPraces = 0;
-		for (int i = 0; i < exp.length(); i++) {
+    @Override
+    public boolean isAvalidExpression() {
+        int numberOfOpenPraces = 0;
+        int numberOfClosedPraces = 0;
+        if(exp == null)
+        {
+            return false;
+        }
+        for (int i = 0; i < exp.length(); i++) {
 
-			if (exp.charAt(i) == '(') {
-				numberOfOpenPraces++;
-			}
-			if (exp.charAt(i) == ')') {
-				numberOfClosedPraces++;
-			}
-			// ()
-			if (i != exp.length() - 1 && (isOpenpraces(exp.charAt(i)) && isClosepraces(exp.charAt(i + 1)))) {
-				isValid = false;
-				return isValid;
-			}
-			// ......( , // ...)a or ...(a
-			else if (i == exp.length() - 1 && (isOpenpraces(exp.charAt(i)) || isOperator(exp.charAt(i))
-					|| (isAletter(exp.charAt(i)) && exp.length() != 1
-							&& (isClosepraces(exp.charAt(i - 1)) || isOpenpraces(exp.charAt(i - 1)))))) {
-				isValid = false;
-				return isValid;
-			}
-			// ab
-			else if (i != exp.length() - 1 && (isAletter(exp.charAt(i)) && isAletter(exp.charAt(i + 1)))) {
-				isValid = false;
-				return isValid;
-			}
-			// )a
-			else if (i != exp.length() - 1 && (isClosepraces(exp.charAt(i)) && isAletter(exp.charAt(i + 1)))) {
-				isValid = false;
-				return isValid;
-			}
-			// (&
-			else if (i != exp.length() - 1
-					&& (isOpenpraces(exp.charAt(i)) && (isOperator(exp.charAt(i + 1)) && exp.charAt(i + 1) != '~'))) {
-				isValid = false;
-				return isValid;
-			}
-			// )~
-			else if (i != exp.length() - 1
-					&& (isClosepraces(exp.charAt(i)) && (isOperator(exp.charAt(i + 1)) && exp.charAt(i + 1) == '~'))) {
-				isValid = false;
-				return isValid;
-			}
-			// x~...
-			else if (i != exp.length() - 1
-					&& (isAletter(exp.charAt(i)) && (isOperator(exp.charAt(i + 1)) && exp.charAt(i + 1) == '~'))) {
-				isValid = false;
-				return isValid;
-			}
-			// &|
-			else if (i != exp.length() - 1
-					&& (isOperator(exp.charAt(i)) && (isOperator(exp.charAt(i + 1)) && exp.charAt(i + 1) != '~'))) {
-				isValid = false;
-				return isValid;
-			}
-		}
-		if (numberOfClosedPraces == numberOfOpenPraces) {
-			isValid = true;
-			return isValid;
-		} else {
-			isValid = false;
-			return isValid;
-		}
-	}
+            if (exp.charAt(i) == '(') {
+                numberOfOpenPraces++;
+            }
+            if (exp.charAt(i) == ')') {
+                numberOfClosedPraces++;
+            }
+            // ()
+            if (i != exp.length() - 1 && (isOpenpraces(exp.charAt(i)) && isClosepraces(exp.charAt(i + 1)))) {
+                isValid = false;
+                return isValid;
+            }
+            // ......( , // ...)a or ...(a
+            else if (i == exp.length() - 1 && (isOpenpraces(exp.charAt(i)) || isOperator(exp.charAt(i))
+                    || (isAletter(exp.charAt(i)) && exp.length() != 1
+                    && (isClosepraces(exp.charAt(i - 1)) || isOpenpraces(exp.charAt(i - 1)))))) {
+                isValid = false;
+                return isValid;
+            }
+            // ab
+            else if (i != exp.length() - 1 && (isAletter(exp.charAt(i)) && isAletter(exp.charAt(i + 1)))) {
+                isValid = false;
+                return isValid;
+            }
+            // )a
+            else if (i != exp.length() - 1 && (isClosepraces(exp.charAt(i)) && isAletter(exp.charAt(i + 1)))) {
+                isValid = false;
+                return isValid;
+            }
+            // (&
+            else if (i != exp.length() - 1
+                    && (isOpenpraces(exp.charAt(i)) && (isOperator(exp.charAt(i + 1)) && exp.charAt(i + 1) != '~'))) {
+                isValid = false;
+                return isValid;
+            }
+            // )~
+            else if (i != exp.length() - 1
+                    && (isClosepraces(exp.charAt(i)) && (isOperator(exp.charAt(i + 1)) && exp.charAt(i + 1) == '~'))) {
+                isValid = false;
+                return isValid;
+            }
+            // x~...
+            else if (i != exp.length() - 1
+                    && (isAletter(exp.charAt(i)) && (isOperator(exp.charAt(i + 1)) && exp.charAt(i + 1) == '~'))) {
+                isValid = false;
+                return isValid;
+            }
+            // &|
+            else if (i != exp.length() - 1
+                    && (isOperator(exp.charAt(i)) && (isOperator(exp.charAt(i + 1)) && exp.charAt(i + 1) != '~'))) {
+                isValid = false;
+                return isValid;
+            }
+        }
+        if (numberOfClosedPraces == numberOfOpenPraces) {
+            isValid = true;
+            return isValid;
+        } else {
+            isValid = false;
+            return isValid;
+        }
+    }
 
-	@Override
-	public boolean evaluateExpression(HashMap<Character, Boolean> values) {
-		String postFixExp = infixToPostfix(this.exp);
-		Stack<Boolean> s = new Stack<>();
-		for (char x : postFixExp.toCharArray()) {
-			if (isAletter(x)) {
-				s.push(values.get(x));
-				continue;
-			} else if (isOperator(x)) {
-				boolean result;
-				if (isNot(x)) {
-					boolean p = s.pop();
-					result = not(p);
-					s.push(result);
+    @Override
+    public Boolean evaluateExpression(final HashMap<Character, Boolean> values) {
+        final String postFixExp = infixToPostfix(this.exp);
+        final Stack<Boolean> s = new Stack<>();
+        for (final Character x : postFixExp.toCharArray()) {
+            if (isAletter(x)) {
+                s.push(values.get(x));
+                continue;
+            } else if (isOperator(x)) {
+                boolean result;
+                if (isNot(x)) {
+                    final boolean p = s.pop();
+                    result = not(p);
+                    s.push(result);
 
-				} else {
-					boolean q = s.pop();
-					boolean p = s.pop();
+                } else {
+                    final boolean q = s.pop();
+                    final boolean p = s.pop();
 
-					switch (x) {
-					case '&':
-						s.push(and(p, q));
-						break;
-					case '|':
-						s.push(or(p, q));
-						break;
-					case '>':
-						s.push(conditional(p, q));
-						break;
-					case '<':
-						s.push(biConditional(p, q));
-						break;
-					}
-				}
-			}
-		}
-		
-		if(s.size() == 1){
-			return s.pop();
-		}else{
-			throw new RuntimeException();
-		}
-	}
+                    switch (x) {
+                    case '&':
+                        s.push(and(p, q));
+                        break;
+                    case '|':
+                        s.push(or(p, q));
+                        break;
+                    case '>':
+                        s.push(conditional(p, q));
+                        break;
+                    case '<':
+                        s.push(biConditional(p, q));
+                        break;
+                    }
+                }
+            }
+        }
 
-	private int precedence(char c) {
-		int precedence = 0;
-		if (c == '>' || c == '<') {
-			precedence = 1;
-		} else if (c == '&' || c == '|') {
-			precedence = 2;
-		} else if (c == '~') {
-			precedence = 3;
-		} else if (c == '(' || c == ')') {
-			precedence = 4;
-		}
-		return precedence;
-	}
+        if(s.size() == 1){
+            return s.pop();
+        }else{
+            throw new RuntimeException();
+        }
+    }
 
-	private String removeSpaces(String expression) {
+    private int precedence(final char c) {
+        int precedence = 0;
+        if (c == '>' || c == '<') {
+            precedence = 1;
+        } else if (c == '&' || c == '|') {
+            precedence = 2;
+        } else if (c == '~') {
+            precedence = 3;
+        } else if (c == '(' || c == ')') {
+            precedence = 4;
+        }
+        return precedence;
+    }
 
-		StringBuilder exp = new StringBuilder();
+    private String removeSpaces(final String expression) {
 
-		if (expression == null || expression.length() == 0) {
-			return null;
-		}
+        final StringBuilder exp = new StringBuilder();
 
-		for (int j = 0; j < expression.length(); j++) {
-			if (expression.charAt(j) != ' ') {
-				exp.append(expression.charAt(j));
-			}
-		}
+        if (expression == null || expression.length() == 0) {
+            return null;
+        }
 
-		return exp.toString();
-	}
+        for (int j = 0; j < expression.length(); j++) {
+            if (expression.charAt(j) != ' ') {
+                exp.append(expression.charAt(j));
+            }
+        }
 
-	private boolean isValidSymbol(String exp, int i) {
-		if (exp.charAt(i) == '&' || exp.charAt(i) == '|' || exp.charAt(i) == '~' || exp.charAt(i) == '>'
-				|| exp.charAt(i) == '<' || exp.charAt(i) == '(' || exp.charAt(i) == ')') {
-			return true;
-		} else {
-			return false;
-		}
-	}
+        return exp.toString();
+    }
 
-	private boolean isAletter(char x) {
-		if ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z')) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    private boolean isValidSymbol(final String exp, final int i) {
+        if (exp.charAt(i) == '&' || exp.charAt(i) == '|' || exp.charAt(i) == '~' || exp.charAt(i) == '>'
+                || exp.charAt(i) == '<' || exp.charAt(i) == '(' || exp.charAt(i) == ')') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	private boolean isOpenpraces(char x) {
-		if (x == '(') {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    private boolean isAletter(final char x) {
+        if ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	private boolean isClosepraces(char x) {
-		if (x == ')') {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    private boolean isOpenpraces(final char x) {
+        if (x == '(') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	private boolean isOperator(char x) {
-		if (x == '&' || x == '|' || x == '~' || x == '>' || x == '<') {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    private boolean isClosepraces(final char x) {
+        if (x == ')') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	public String infixToPostfix(String exp) {
+    private boolean isOperator(final char x) {
+        if (x == '&' || x == '|' || x == '~' || x == '>' || x == '<') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-		Stack<Character> s = new Stack<Character>();
-		if (exp == null || exp.length() == 0) {
-			throw null;
-		}
+    public String infixToPostfix(final String exp) {
 
-		StringBuilder postfix = new StringBuilder();
-		for (int i = 0; i < exp.length(); i++) {
+        final Stack<Character> s = new Stack<Character>();
+        if (exp == null || exp.length() == 0) {
+            throw null;
+        }
 
-			if (isAletter(exp.charAt(i))) {
+        final StringBuilder postfix = new StringBuilder();
+        for (int i = 0; i < exp.length(); i++) {
 
-				postfix.append(exp.charAt(i));
+            if (isAletter(exp.charAt(i))) {
 
-			} else if (isValidSymbol(exp, i)) {
-				if (exp.charAt(i) == ')') {
-					while (!s.isEmpty() && (char) s.peek() != '(') {
-						postfix.append(s.pop());
-					}
-					if (s.peek() == null) {
-						throw null;
-					} else if ((char) s.peek() == '(') {
-						s.pop();
-					}
-				} else {
-					if (s.isEmpty() || s.peek() == '(' || (precedence(exp.charAt(i)) > precedence((char) s.peek()))) {
+                postfix.append(exp.charAt(i));
 
-						s.push(exp.charAt(i));
+            } else if (isValidSymbol(exp, i)) {
+                if (exp.charAt(i) == ')') {
+                    while (!s.isEmpty() && s.peek() != '(') {
+                        postfix.append(s.pop());
+                    }
+                    if (s.peek() == null) {
+                        throw null;
+                    } else if (s.peek() == '(') {
+                        s.pop();
+                    }
+                } else {
+                    if (s.isEmpty() || s.peek() == '(' || (precedence(exp.charAt(i)) > precedence(s.peek()))) {
 
-					} else {
-						
-						if(isNot(exp.charAt(i)) && isNot(s.peek())){
-							s.pop();
-						}else{							
-							while (!s.isEmpty() && ((precedence(exp.charAt(i)) <= precedence((char) s.peek())
-									&& (char) s.peek() != '('))) {
-								
-								postfix.append(s.pop());
-							}
-							s.push(exp.charAt(i));
-						}
-					}
+                        s.push(exp.charAt(i));
 
-				}
+                    } else {
 
-			} else {
-				throw new RuntimeException();
-			}
+                        if(isNot(exp.charAt(i)) && isNot(s.peek())){
+                            s.pop();
+                        }else{
+                            while (!s.isEmpty() && ((precedence(exp.charAt(i)) <= precedence(s.peek())
+                                    && s.peek() != '('))) {
 
-		}
-		while (!s.isEmpty()) {
-			postfix.append(s.pop());
-		}
-		return postfix.toString();
-	}
+                                postfix.append(s.pop());
+                            }
+                            s.push(exp.charAt(i));
+                        }
+                    }
+
+                }
+
+            } else {
+                throw new RuntimeException();
+            }
+
+        }
+        while (!s.isEmpty()) {
+            postfix.append(s.pop());
+        }
+        return postfix.toString();
+    }
 
 
-	private boolean isNot(char x) {
-		return x == '~';
-	}
+    private boolean isNot(final char x) {
+        return x == '~';
+    }
 
-	private boolean and(boolean x, boolean y) {
-		return x & y;
-	}
-	
-	private boolean or(boolean x, boolean y) {
-		return x | y;
-	}
-	
-	private boolean not(boolean x) {
-		if (x == true) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+    private boolean and(final boolean x, final boolean y) {
+        return x & y;
+    }
 
-	private boolean conditional(boolean p, boolean q) {
-		if (p == true && q == false) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+    private boolean or(final boolean x, final boolean y) {
+        return x | y;
+    }
 
-	private boolean biConditional(boolean p, boolean q) {
-		return (conditional(p, q) & conditional(q, p));
-	}
+    private boolean not(final boolean x) {
+        if (x == true) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean conditional(final boolean p, final boolean q) {
+        if (p == true && q == false) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean biConditional(final boolean p, final boolean q) {
+        return (conditional(p, q) & conditional(q, p));
+    }
 
 }

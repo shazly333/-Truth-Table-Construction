@@ -2,39 +2,45 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 
 public class GenerateInput implements GenerateAllInputs {
 
-
+    ArrayList<Character> variables =new ArrayList<>();
     @Override
-    public int gitnumberofinput(final String expression) {
-        final HashSet<Character> distinctnumber= new HashSet<>();
+    public void getVariables(final String expression) {
+        final HashSet<Character> distinctVariables= new HashSet<>();
         for(int i=0;i<expression.length();i++)
         {
             if(Character.isLetter(expression.charAt(i)))
             {
-                distinctnumber.add(expression.charAt(i));
+                distinctVariables.add(expression.charAt(i));
             }
         }
+        final Iterator it = distinctVariables.iterator();
+        while(it.hasNext())
+        {
+            variables.add((Character) it.next());
+        }
 
-        return distinctnumber.size();
     }
 
     @Override
     public void generateAllValidInputs(
-            final HashMap<Character, Boolean> onerowofinput,
-            final Iterator  i, final Expression expression) {
-        if(!i.hasNext())
+            final HashMap<Character,Boolean> onerowofinput,
+            final int  i, final Output expression) {
+        if(i == variables.size())
         {
-            expression.results.add(.evaluate(onerowofinput));
-            expression.allInputs.add(onerowofinput);
+            final ValidateAndCalculate calculate = new ValidateAndCalculate();
+            calculate.setExpression(expression.equation);
+            expression.results.add(calculate.evaluateExpression(onerowofinput).toString());
+            expression.setInput(onerowofinput);
+            System.out.println(expression.results.get(expression.results.size()-1));
             return;
         }
-        final Map.Entry pair = (Map.Entry)i.next();
-        onerowofinput.put((Character) pair.getKey(), true);
-        generateAllValidInputs(onerowofinput, i,expression);
-        onerowofinput.put((Character) pair.getKey(), false);
-        generateAllValidInputs(onerowofinput, i,expression);
+        onerowofinput.put(variables.get(i), true);
+        generateAllValidInputs(onerowofinput, i+1,expression);
+        onerowofinput.put(variables.get(i), false);
+        generateAllValidInputs(onerowofinput, i+1,expression);
     }
+
 }
