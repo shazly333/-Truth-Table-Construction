@@ -26,21 +26,25 @@ public class GenerateInput implements GenerateAllInputs {
 
     @Override
     public void generateAllValidInputs(
-            final HashMap<Character,Boolean> onerowofinput,
+            final HashMap<Character,Boolean> oneRowOfInput,
             final int  i, final Output expression) {
         if(i == variables.size())
         {
             final ValidateAndCalculate calculate = new ValidateAndCalculate();
             calculate.setExpression(expression.equation);
-            expression.results.add(calculate.evaluateExpression(onerowofinput).toString());
-            expression.setInput(onerowofinput);
-            System.out.println(expression.results.get(expression.results.size()-1));
+            // calculate the result with new variables and save results
+            expression.results.add(calculate.evaluateExpression(oneRowOfInput).toString());
+            // save input
+            expression.setInput(oneRowOfInput);
+            //System.out.println(expression.results.get(expression.results.size()-1));
             return;
         }
-        onerowofinput.put(variables.get(i), true);
-        generateAllValidInputs(onerowofinput, i+1,expression);
-        onerowofinput.put(variables.get(i), false);
-        generateAllValidInputs(onerowofinput, i+1,expression);
+        // make the variable numbre i true
+        oneRowOfInput.put(variables.get(i), true);
+        generateAllValidInputs(oneRowOfInput, i+1,expression);
+        // make the variable numbre i false
+        oneRowOfInput.put(variables.get(i), false);
+        generateAllValidInputs(oneRowOfInput, i+1,expression);
     }
 
 }
