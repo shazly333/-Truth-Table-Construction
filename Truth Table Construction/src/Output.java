@@ -6,6 +6,7 @@ public class Output {
     ArrayList<HashMap<Character, Boolean>> allInputs =new ArrayList<>();
     ArrayList<String> results = new ArrayList<>();
     String equation;
+    ArrayList<Character> variables =new ArrayList<>();
     public void setInput( final HashMap<Character, Boolean> row)
     {
         final HashMap<Character, Boolean> newInput = new HashMap<>();
